@@ -9,13 +9,13 @@
 import UIKit
 
 class TodoListViewController: UITableViewController {
-
+    
     let itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogoron"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     
     //MARK: - TableView Datasource methods
     
@@ -25,10 +25,24 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        
-        cell.textLabel?.text = itemArray[indexPath.item]
+        cell.textLabel?.text = itemArray[indexPath.row]
         return cell
     }
-
+    
+    //MARK: - TableView Delegate methods
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(itemArray[indexPath.row])
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+            }else {
+                cell.accessoryType = .checkmark
+            }
+        }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }
 

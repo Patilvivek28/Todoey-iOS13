@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Todo List View Controller-->
+        <!--Todoey-->
         <scene sceneID="RV2-w6-7MB">
             <objects>
                 <tableViewController id="vUS-y1-JaN" customClass="TodoListViewController" customModule="Todoey" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,7 +31,7 @@
                             <outlet property="delegate" destination="vUS-y1-JaN" id="0Cj-rO-uId"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="8fI-dB-3f7"/>
+                    <navigationItem key="navigationItem" title="Todoey" id="8fI-dB-3f7"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L5F-mG-0BY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -47,7 +47,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" systemColor="systemBlueColor"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
