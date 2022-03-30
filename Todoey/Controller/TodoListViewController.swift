@@ -9,9 +9,11 @@
 import UIKit
 import RealmSwift
 import ChameleonFramework
+import CoreData
 
 class TodoListViewController: SwipeTableViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     var todoItems:  Results<Item>?
     var realm = try! Realm()
     
@@ -25,9 +27,35 @@ class TodoListViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        print(dataFilePath)
+        // Not required in latest version
+        //        tableView.separatorStyle = .none
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        
+        if let colorHex = selectedCategory?.color {
+            
+            title = selectedCategory?.name
+            
+            guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+            
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor(hexString: colorHex)
+            navBar.standardAppearance = appearance;
+            navBar.scrollEdgeAppearance = navBar.standardAppearance
+            
+            if let navBarColor = UIColor(hexString: colorHex) {
+                navBar.barTintColor = navBarColor
+                navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+                navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColor, returnFlat: true)]
+                
+                // Not working properly on iOS 15
+                // searchBar.barTintColor = navBarColor
+            }
+        }
     }
     
     
