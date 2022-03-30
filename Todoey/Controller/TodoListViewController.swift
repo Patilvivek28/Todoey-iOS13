@@ -12,6 +12,12 @@ import CoreData
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
+    var selectedCategory : Category? {
+        didSet{
+            // load items when the category is set
+            loadItems()
+        }
+    }
     
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -22,8 +28,6 @@ class TodoListViewController: UITableViewController {
         let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         print(dataFilePath)
         
-        // Pulling data from CoreData
-        loadItems()
     }
     
     
@@ -76,6 +80,7 @@ class TodoListViewController: UITableViewController {
             let newItem = Item(context: self.context)
             newItem.title = textField.text ?? "Default Text"
             newItem.done = false
+            newItem.parentCategory = self.selectedCategory
             
             self.itemArray.append(newItem)
             
@@ -108,7 +113,16 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func loadItems(_ request: NSFetchRequest<Item> = Item.fetchRequest()) {
+    func loadItems(_ request: NSFetchRequest<Item> = Item.fetchRequest(), predicate: NSPredicate? = nil) {
+        
+        let categoryPredicate = NSPredicate(format: "parentCategory.name MATCHES %@", selectedCategory!.name!)
+        
+        if let additionalPredicate = predicate {
+            request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [additionalPredicate, categoryPredicate])
+        } else {
+            request.predicate = categoryPredicate
+        }
+        
         
         do {
             itemArray = try context.fetch(request)
@@ -128,13 +142,11 @@ extension TodoListViewController: UISearchBarDelegate {
         
         let predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
         
-        request.predicate = predicate
-        
         let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
         
         request.sortDescriptors = [sortDescriptor]
         
-        loadItems(request)
+        loadItems(request, predicate: predicate)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
