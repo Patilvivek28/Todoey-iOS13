@@ -48,6 +48,9 @@ class TodoListViewController: UITableViewController {
     //MARK: - TableView Delegate methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        // Update method for CoreData - You also need to call context.save() after this operation
+        // itemArray[indexPath.row].setValue("Completed", forKey: "title")
+        
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
