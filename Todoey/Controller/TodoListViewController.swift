@@ -51,7 +51,11 @@ class TodoListViewController: UITableViewController {
         // Update method for CoreData - You also need to call context.save() after this operation
         // itemArray[indexPath.row].setValue("Completed", forKey: "title")
         
-        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        //        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
+        // Deleting data from CoreData - here sequence of below statements is imp
+        // context.delete(itemArray[indexPath.row])
+        // itemArray.remove(at: indexPath.row)
         
         saveItems()
         
