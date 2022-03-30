@@ -52,16 +52,15 @@ class TodoListViewController: UITableViewController {
     //MARK: - TableView Delegate methods
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        // Update method for CoreData - You also need to call context.save() after this operation
-        // itemArray[indexPath.row].setValue("Completed", forKey: "title")
-        
-        //        todoItems[indexPath.row].done = !todoItems[indexPath.row].done
-        
-        // Deleting data from CoreData - here sequence of below statements is imp
-        // context.delete(itemArray[indexPath.row])
-        // itemArray.remove(at: indexPath.row)
-        
-        //        saveItems()
+        if let item = todoItems?[indexPath.row] {
+            do {
+                try realm.write{
+                    item.done = !item.done
+                }
+            } catch {
+                print("Error saving done status, \(error)")
+            }
+        }
         
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
